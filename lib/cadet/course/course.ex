@@ -8,7 +8,7 @@ defmodule Cadet.Course do
   import Ecto.Query
 
   alias Cadet.Accounts.User
-  alias Cadet.Course.{Group, Material, Upload}
+  alias Cadet.Course.{Group, Material, Upload, Category}
 
   @doc """
   Get a group based on the group name or create one if it doesn't exist
@@ -126,11 +126,18 @@ defmodule Cadet.Course do
   @doc """
   Upload a material file to designated folder
   """
-  def upload_material_file(uploader = %User{}, attr = %{}) do
+  def upload_material_file(
+        folder = %Material{},
+        uploader = %User{},
+        category = %Category{},
+        attr = %{}
+      ) do
     changeset =
       %Material{}
       |> Material.changeset(attr)
       |> put_assoc(:uploader, uploader)
+      |> put_assoc(:parent, folder)
+      |> put_assoc(:category, category)
 
     Repo.insert(changeset)
   end
