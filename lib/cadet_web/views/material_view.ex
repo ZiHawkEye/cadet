@@ -7,7 +7,7 @@ defmodule CadetWeb.MaterialView do
 
   def render("show.json", %{material: material}) do
     transform_map_for_view(material, %{
-      name: :name,
+      title: :title,
       description: :description,
       inserted_at: :inserted_at,
       updated_at: :updated_at,
